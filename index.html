@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente Javier - Vista Previa</title>
+    <style>
+        /* --- CSS PREMIUM --- */
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; margin: 0; }
+        
+        #chat-launcher {
+            position: fixed; bottom: 30px; right: 30px;
+            display: flex; align-items: center; cursor: pointer; z-index: 9999;
+        }
+
+        .launcher-label {
+            background: rgba(26, 26, 26, 0.9); backdrop-filter: blur(5px);
+            color: white; padding: 12px 20px; border-radius: 12px;
+            font-size: 14px; font-weight: 600; margin-right: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2); white-space: nowrap;
+            transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .launcher-icon {
+            width: 65px; height: 65px;
+            background: linear-gradient(145deg, #2c2c2c, #000000);
+            border-radius: 50%; display: flex; justify-content: center;
+            align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            font-size: 30px; position: relative; transition: all 0.4s ease;
+        }
+
+        #chat-container {
+            position: fixed; bottom: 105px; right: 30px;
+            width: 350px; height: 550px; background: white;
+            display: flex; flex-direction: column; border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2); overflow: hidden;
+            z-index: 9999; transition: all 0.3s ease; border: 1px solid #eee;
+        }
+
+        .hidden { opacity: 0; transform: translateY(40px) scale(0.95); pointer-events: none; }
+
+        #chat-header { padding: 20px; background: #1a1a1a; color: white; display: flex; justify-content: space-between; align-items: center; }
+        #messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: #f9f9f9; }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
+        .user { align-self: flex-end; background: #1a1a1a; color: white; border-bottom-right-radius: 4px; }
+        .bot { align-self: flex-start; background: white; color: #333; border-bottom-left-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        .ws-btn { display: inline-block; background: #25d366; color: white !important; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 12px; margin-top: 10px; }
+
+        .input-area { padding: 15px; display: flex; gap: 10px; border-top: 1px solid #eee; background: white; }
+        input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+        .input-area button { background: #1a1a1a; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+
+        .typing { display: flex; gap: 5px; padding: 10px; background: white; border-radius: 15px; width: fit-content; }
+        .dot { width: 6px; height: 6px; background: #ccc; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
+        @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-7px); } }
+    </style>
+</head>
+<body>
+
+    <div id="chat-launcher" onclick="toggleChat()">
+        <div class="launcher-label">Atención al Cliente Aquí</div>
+        <div class="launcher-icon">💬</div>
+    </div>
+
+    <div id="chat-container" class="hidden">
+        <div id="chat-header">
+            <span>Asistente Virtual</span>
+            <button onclick="toggleChat()" style="background:none; border:none; color:#888; font-size:24px; cursor:pointer;">×</button>
+        </div>
+        <div id="messages"></div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Escribe tu mensaje..." onkeypress="if(event.key==='Enter') enviarMensaje()">
+            <button onclick="enviarMensaje()">></button>
+        </div>
+    </div>
+
+    <script>
+        const URL_RENDER = 'https://asistente-javier.onrender.com/chat';
+        let saludoEnviado = false;
+
+        function toggleChat() {
+            const chat = document.getElementById('chat-container');
+            chat.classList.toggle('hidden');
+            if (!chat.classList.contains('hidden') && !saludoEnviado) {
+                enviarBienvenida();
+                saludoEnviado = true;
+            }
+        }
+
+        function enviarBienvenida() {
+            const messages = document.getElementById('messages');
+            setTimeout(() => {
+                const linkWA = "https://wa.me/584120000000?text=Hola";
+                messages.innerHTML += `
+                    <div class="msg bot">
+                        ¡Hola! 👋 Bienvenido. Soy <b>Javier</b>, tu asistente virtual. ¿En qué puedo ayudarte?
+                        <br><br><a href="${linkWA}" target="_blank" class="ws-btn">WhatsApp Directo 📱</a>
+                    </div>`;
+                messages.scrollTop = messages.scrollHeight;
+            }, 800);
+        }
+
+        async function enviarMensaje() {
+            const input = document.getElementById('user-input');
+            const messages = document.getElementById('messages');
+            const texto = input.value.trim();
+            if (!texto) return;
+
+            messages.innerHTML += `<div class="msg user">${texto}</div>`;
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+
+            const typingId = "typing-" + Date.now();
+            messages.innerHTML += `<div id="${typingId}" class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+            messages.scrollTop = messages.scrollHeight;
+
+            try {
+                const resp = await fetch(URL_RENDER, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mensaje: texto })
+                });
+                const data = await resp.json();
+                document.getElementById(typingId).remove();
+                messages.innerHTML += `<div class="msg bot">${data.respuesta}</div>`;
+                messages.scrollTop = messages.scrollHeight;
+            } catch (e) {
+                document.getElementById(typingId).remove();
+                messages.innerHTML += `<div class="msg bot" style="color:red">Error de conexión.</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
