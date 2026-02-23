@@ -54,6 +54,22 @@
         .typing { display: flex; gap: 5px; padding: 10px; background: white; border-radius: 15px; width: fit-content; }
         .dot { width: 6px; height: 6px; background: #ccc; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
         @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-7px); } }
+        .quick-btn {
+  background: white;
+  color: #1a1a1a;
+  border: 1px solid #1a1a1a;
+  padding: 8px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.quick-btn:hover {
+  background: #1a1a1a;
+  color: white;
+}
     </style>
 </head>
 <body>
@@ -89,17 +105,38 @@
         }
 
         function enviarBienvenida() {
-            const messages = document.getElementById('messages');
-            setTimeout(() => {
-                const linkWA = "https://wa.me/584120000000?text=Hola";
-                messages.innerHTML += `
-                    <div class="msg bot">
-                        ¡Hola! 👋 Bienvenido. Soy <b>Javier</b>, tu asistente virtual. ¿En qué puedo ayudarte?
-                        <br><br><a href="${linkWA}" target="_blank" class="ws-btn">WhatsApp Directo 📱</a>
-                    </div>`;
-                messages.scrollTop = messages.scrollHeight;
-            }, 800);
-        }
+  const messages = document.getElementById('messages');
+  
+  setTimeout(() => {
+    const linkWA = "https://wa.me/584120000000?text=Hola, quiero comprar";
+    
+    // El mensaje de texto
+    const saludoHtml = `
+      <div class="msg bot">
+        ¡Hola! 👋 Bienvenido. Soy <b>Javier</b>, tu asistente virtual. 
+        <br><br>¿En qué puedo ayudarte? Aquí tienes algunas opciones rápidas:
+      </div>`;
+    
+    // Los botones de respuesta rápida
+    const botonesHtml = `
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+        <button onclick="enviarTextoRapido('¿Qué precios tienen?')" class="quick-btn">💰 Ver Precios</button>
+        <button onclick="enviarTextoRapido('¿Dónde están ubicados?')" class="quick-btn">📍 Ubicación</button>
+        <button onclick="enviarTextoRapido('¿Tienen delivery?')" class="quick-btn">🛵 Delivery</button>
+        <a href="${linkWA}" target="_blank" class="ws-btn" style="margin-top:0; padding: 8px 12px;">📱 WhatsApp</a>
+      </div>
+    `;
+
+    messages.innerHTML += saludoHtml + botonesHtml;
+    messages.scrollTop = messages.scrollHeight;
+  }, 800);
+}
+
+// Nueva función para que los botones funcionen
+function enviarTextoRapido(texto) {
+  document.getElementById('user-input').value = texto;
+  enviarMensaje();
+}
 
         async function enviarMensaje() {
             const input = document.getElementById('user-input');
@@ -132,4 +169,5 @@
         }
     </script>
 </body>
+
 </html>
