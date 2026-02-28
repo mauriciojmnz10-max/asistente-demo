@@ -1,0 +1,1156 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MultiKAP • TAZ 2080 • Catálogo</title>
+    <!-- Meta tags SEO -->
+    <meta name="description" content="MultiKAP - Catálogo de repuestos para motos, papelería y hogar. TAZ 2080 • CAOS ORGANIZADO.">
+    <meta name="keywords" content="repuestos motos, papelería, hogar, frenos, cadena, aceite, cuadernos, escobas">
+    <meta property="og:title" content="MultiKAP • TAZ 2080">
+    <meta property="og:image" content="https://i.postimg.cc/SRN4tL6c/FB-IMG-1772076157470-1.jpg">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== VARIABLES MODO OSCURO (POR DEFECTO) ===== */
+        :root {
+            --primary: #ff5500;
+            --primary-light: #ff884d;
+            --primary-dark: #cc4400;
+            --secondary: #5c3e1f;
+            --accent: #ff884d;
+            --bg-dark: #1a1308;
+            --bg-light: #fcf5e8;
+            --surface: rgba(92, 62, 31, 0.2);
+            --surface-hover: rgba(255, 85, 0, 0.15);
+            --text: #fff3e0;
+            --text-secondary: #d4a574;
+            --text-light: #1a1308;
+            --border: rgba(255, 85, 0, 0.3);
+            --neon-glow: 0 0 15px rgba(255, 85, 0, 0.5);
+            --card-bg: rgba(92, 62, 31, 0.15);
+            --nav-bg: rgba(26, 19, 8, 0.8);
+            --panel-bg: rgba(26, 19, 8, 0.95);
+        }
+
+        /* ===== VARIABLES MODO CLARO ===== */
+        body.light-mode {
+            --primary: #ff5500;
+            --primary-light: #ff884d;
+            --primary-dark: #cc4400;
+            --secondary: #d4a574;
+            --accent: #ff884d;
+            --bg-dark: #fcf5e8;
+            --bg-light: #fcf5e8;
+            --surface: rgba(255, 85, 0, 0.05);
+            --surface-hover: rgba(255, 85, 0, 0.1);
+            --text: #1a1308;
+            --text-secondary: #5c3e1f;
+            --text-light: #fff3e0;
+            --border: rgba(255, 85, 0, 0.2);
+            --neon-glow: 0 0 15px rgba(255, 85, 0, 0.3);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --nav-bg: rgba(252, 245, 232, 0.8);
+            --panel-bg: rgba(252, 245, 232, 0.95);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Canvas Matrix Background */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.25;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        body.light-mode #canvas-bg {
+            opacity: 0.1;
+        }
+
+        /* Navegación con estilo MultiKAP */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1.2rem 5%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(255, 85, 0, 0.15);
+            transition: background 0.3s;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--primary), #ffaa66, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary);
+            border-radius: 2rem;
+            transition: all 0.3s;
+            background: var(--surface);
+        }
+        .nav-link:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+            box-shadow: var(--neon-glow);
+        }
+
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 85, 0, 0.3);
+            transition: 0.3s;
+            font-size: 1.2rem;
+        }
+        .theme-toggle:active {
+            transform: scale(0.9);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 4rem 5% 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--primary);
+            background: rgba(255, 85, 0, 0.1);
+            padding: 0.3rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            max-width: 800px;
+            color: var(--text);
+            text-shadow: 0 0 10px rgba(255,85,0,0.3);
+        }
+
+        .hero h2 span {
+            color: var(--primary);
+            font-style: italic;
+            text-shadow: 0 0 20px var(--primary);
+        }
+
+        /* Selector de categorías */
+        .category-selector {
+            padding: 2rem 5%;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .category-btn {
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--primary);
+            color: var(--text);
+            padding: 1rem 2rem;
+            border-radius: 3rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .category-btn.active {
+            background: var(--primary);
+            color: var(--bg-dark);
+            box-shadow: var(--neon-glow);
+        }
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Grid de productos */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 3rem 5% 7rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        .product-image {
+            height: 250px;
+            background: var(--surface-hover);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+            display: block;
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--bg-dark);
+            z-index: 2;
+            box-shadow: var(--neon-glow);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+            text-shadow: var(--neon-glow);
+        }
+        .product-price small {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        .btn-primary {
+            flex: 3;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--neon-glow);
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
+            background: #ffaa66;
+        }
+        .btn-secondary {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--text);
+            padding: 0.8rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.2rem;
+        }
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Panel lateral de detalles */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 450px;
+            height: 100vh;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            padding: 2rem;
+            overflow-y: auto;
+            transition: right 0.5s ease;
+            border-left: 2px solid var(--primary);
+            box-shadow: -10px 0 30px rgba(255,85,0,0.2);
+        }
+        .side-panel.active {
+            right: 0;
+        }
+        .close-panel {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border: 1px solid var(--primary);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+        }
+
+        .panel-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 1.5rem;
+            margin: 3rem 0 1rem;
+            border: 2px solid var(--primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        .panel-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .panel-desc {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255,85,0,0.1);
+            border-radius: 1rem;
+            line-height: 1.6;
+        }
+
+        .panel-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin: 2rem 0;
+            text-shadow: var(--neon-glow);
+        }
+        .panel-price small {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .panel-btns {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* ===== CARRITO DE COMPRAS ===== */
+        .cart-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 4rem;
+            height: 4rem;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-dark);
+            text-decoration: none;
+            font-size: 1.8rem;
+            box-shadow: var(--neon-glow), 0 0 30px var(--primary);
+            transition: all 0.2s;
+            z-index: 1000;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+        .cart-float:hover {
+            transform: scale(1.1);
+        }
+        .cart-float .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 400px;
+            height: 100vh;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            z-index: 2001;
+            padding: 2rem;
+            overflow-y: auto;
+            transition: right 0.5s ease;
+            border-left: 2px solid var(--primary);
+            box-shadow: -10px 0 30px rgba(255,85,0,0.2);
+        }
+        .cart-panel.active {
+            right: 0;
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary);
+        }
+        .cart-header h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        .cart-close {
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border: 1px solid var(--primary);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+        }
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .cart-item-info {
+            flex: 2;
+        }
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+        .cart-item-price {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .cart-item-remove {
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.3rem;
+        }
+        .cart-item-remove:hover {
+            color: var(--primary);
+        }
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .cart-total span {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        .cart-checkout {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px #25d366;
+            transition: all 0.2s;
+        }
+        .cart-checkout:hover {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        @media (max-width: 640px) {
+            .side-panel, .cart-panel {
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .category-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .category-btn {
+                justify-content: center;
+            }
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas-bg"></canvas>
+
+    <nav>
+        <span class="logo">MULTIKAP • TAZ 2080</span>
+        <div class="nav-links">
+            <div class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</div>
+            <a href="index.html" class="nav-link">← VOLVER AL CHAT</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <span class="hero-tag">⚡ CATÁLOGO COMPLETO ⚡</span>
+        <h2><span>CAOS ORGANIZADO</span> para tu moto, estudio y hogar</h2>
+    </section>
+
+    <div class="category-selector" id="categorySelector">
+        <button class="category-btn active" onclick="filterByCategory('motos', this)">
+            <span>🏍️</span> TAZ MOTOS
+        </button>
+        <button class="category-btn" onclick="filterByCategory('papeleria', this)">
+            <span>📚</span> TAZ PAPELERÍA
+        </button>
+        <button class="category-btn" onclick="filterByCategory('hogar', this)">
+            <span>🏠</span> TAZ HOGAR
+        </button>
+        <button class="category-btn" onclick="filterByCategory('todos', this)">
+            <span>✨</span> TODOS
+        </button>
+    </div>
+
+    <main class="products-grid" id="productsGrid"></main>
+
+    <!-- Panel de detalles de producto -->
+    <div class="side-panel" id="productPanel">
+        <span class="close-panel" onclick="togglePanel(false)">[ CERRAR ]</span>
+        <div id="panelContent"></div>
+    </div>
+
+    <!-- Botón flotante del carrito -->
+    <div class="cart-float" onclick="toggleCartPanel()">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+
+    <!-- Panel lateral del carrito -->
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-header">
+            <h3>🛍️ MI CARRITO</h3>
+            <span class="cart-close" onclick="toggleCartPanel()">[ CERRAR ]</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Los items del carrito se cargarán aquí -->
+        </div>
+        <div class="cart-total">
+            TOTAL: <span id="cartTotal">$0</span>
+        </div>
+        <button class="cart-checkout" onclick="checkout()">💰 FINALIZAR COMPRA</button>
+    </div>
+
+    <script>
+        // ===== FUNCIÓN PARA CAMBIAR TEMA (COMPARTIDA CON INDEX) =====
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const themeToggle = document.getElementById('themeToggle');
+            const isLight = document.body.classList.contains('light-mode');
+            themeToggle.innerText = isLight ? '☀️' : '🌙';
+            // Usar la misma clave que el index para compartir tema
+            localStorage.setItem('catalogo_theme', isLight ? 'light' : 'dark');
+            
+            // Actualizar matriz para modo claro
+            if (isLight) {
+                ctx.fillStyle = 'rgba(252, 245, 232, 0.1)';
+            } else {
+                ctx.fillStyle = 'rgba(26, 19, 8, 0.1)';
+            }
+        }
+
+        // Cargar tema guardado (misma clave que el index)
+        const savedTheme = localStorage.getItem('catalogo_theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            document.getElementById('themeToggle').innerText = '☀️';
+        }
+
+        // Matrix Background
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const columns = Math.floor(width / 25);
+        const drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            if (document.body.classList.contains('light-mode')) {
+                ctx.fillStyle = 'rgba(252, 245, 232, 0.1)';
+            } else {
+                ctx.fillStyle = 'rgba(26, 19, 8, 0.1)';
+            }
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#ff5500';
+            ctx.font = '15px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const char = String.fromCharCode(0x30A0 + Math.random() * 96);
+                ctx.fillStyle = Math.random() > 0.5 ? '#ff5500' : '#ffaa66';
+                ctx.fillText(char, i * 25, drops[i] * 20);
+                if (drops[i] * 20 > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 45);
+
+        // Catálogo de MultiKAP con imágenes reales
+        const products = [
+            // MOTOS
+            {
+                id: 1,
+                name: "Freno Delantero",
+                category: "motos",
+                emoji: "🏍️",
+                img: "https://images.unsplash.com/photo-1585598911072-5b61c5d3b9e3?w=800&auto=format&fit=crop",
+                desc: "Pastillas y disco, alta duración. Compatible con la mayoría de las motos 150cc. Incluye juego de pastillas de alto rendimiento.",
+                price: 25,
+                badge: "🏍️ TAZ MOTOS"
+            },
+            {
+                id: 2,
+                name: "Cadena Transmisión",
+                category: "motos",
+                emoji: "🔧",
+                img: "https://images.unsplash.com/photo-1619642751034-765adb7c1e1c?w=800&auto=format&fit=crop",
+                desc: "Kit completo, resistencia máxima. Incluye piñón y corona reforzados. 120 eslabones, para motos 150-200cc.",
+                price: 45,
+                badge: "🏍️ TAZ MOTOS"
+            },
+            {
+                id: 3,
+                name: "Aceite 20W50",
+                category: "motos",
+                emoji: "🛢️",
+                img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=800&auto=format&fit=crop",
+                desc: "1 litro, motor 4 tiempos. Protección superior para tu motor. Lubricante mineral de alta calidad.",
+                price: 12,
+                badge: "🏍️ TAZ MOTOS"
+            },
+            {
+                id: 4,
+                name: "Batería",
+                category: "motos",
+                emoji: "🔋",
+                img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=800&auto=format&fit=crop",
+                desc: "12V 7Ah, libre mantenimiento. Alta durabilidad y potencia. Ideal para motos y cuatriciclos.",
+                price: 60,
+                badge: "🏍️ TAZ MOTOS"
+            },
+            {
+                id: 5,
+                name: "Foco LED",
+                category: "motos",
+                emoji: "💡",
+                img: "https://images.unsplash.com/photo-1587583464461-37d1f4f1b415?w=800&auto=format&fit=crop",
+                desc: "Luz blanca, alta potencia. Iluminación superior, bajo consumo. 6000K, 12V, fácil instalación.",
+                price: 15,
+                badge: "🏍️ TAZ MOTOS"
+            },
+            {
+                id: 6,
+                name: "Kit de Arrastre",
+                category: "motos",
+                emoji: "⚙️",
+                img: "https://images.unsplash.com/photo-1619642751034-765adb7c1e1c?w=800&auto=format&fit=crop",
+                desc: "Relación 428, alta durabilidad. Mejor rendimiento y agarre. Incluye piñón y corona de acero.",
+                price: 35,
+                badge: "🏍️ TAZ MOTOS"
+            },
+            // PAPELERÍA
+            {
+                id: 7,
+                name: "Cuaderno Universitario",
+                category: "papeleria",
+                emoji: "📓",
+                img: "https://images.unsplash.com/photo-1531346680769-a1d79b57dc5b?w=800&auto=format&fit=crop",
+                desc: "100 hojas, cuadros / rayas. Tapa dura, papel de alta calidad. Ideal para la universidad.",
+                price: 5,
+                badge: "📚 TAZ PAPELERÍA"
+            },
+            {
+                id: 8,
+                name: "Lápices (pack 10)",
+                category: "papeleria",
+                emoji: "✏️",
+                img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=800&auto=format&fit=crop",
+                desc: "HB #2, grafito negro. Punta resistente, borrable. Excelente para escritura y dibujo.",
+                price: 3,
+                badge: "📚 TAZ PAPELERÍA"
+            },
+            {
+                id: 9,
+                name: "Bolígrafos (pack 10)",
+                category: "papeleria",
+                emoji: "🖊️",
+                img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=800&auto=format&fit=crop",
+                desc: "Tinta azul/negra, punta fina. Escritura suave y duradera. Retráctiles con grip antideslizante.",
+                price: 8,
+                badge: "📚 TAZ PAPELERÍA"
+            },
+            {
+                id: 10,
+                name: "Mochila Escolar",
+                category: "papeleria",
+                emoji: "🎒",
+                img: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800&auto=format&fit=crop",
+                desc: "Compartimentos, resistente. Material impermeable, varios colores. Con correas acolchadas.",
+                price: 35,
+                badge: "📚 TAZ PAPELERÍA"
+            },
+            {
+                id: 11,
+                name: "Regla Metálica",
+                category: "papeleria",
+                emoji: "📏",
+                img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=800&auto=format&fit=crop",
+                desc: "30cm, acero inoxidable. Graduación precisa, borde recto. Con escala en cm y pulgadas.",
+                price: 3,
+                badge: "📚 TAZ PAPELERÍA"
+            },
+            {
+                id: 12,
+                name: "Resaltadores (pack 6)",
+                category: "papeleria",
+                emoji: "📌",
+                img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=800&auto=format&fit=crop",
+                desc: "Colores surtidos. Tinta fluorescente, no traspasa el papel. Ideal para estudio.",
+                price: 6,
+                badge: "📚 TAZ PAPELERÍA"
+            },
+            // HOGAR
+            {
+                id: 13,
+                name: "Escoba + Recogedor",
+                category: "hogar",
+                emoji: "🧹",
+                img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=800&auto=format&fit=crop",
+                desc: "Cerdas duras, mango largo. Ideal para todo tipo de pisos. Con recogedor incluido.",
+                price: 10,
+                badge: "🏠 TAZ HOGAR"
+            },
+            {
+                id: 14,
+                name: "Esponjas (pack 3)",
+                category: "hogar",
+                emoji: "🧽",
+                img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=800&auto=format&fit=crop",
+                desc: "Multiuso, anti-rayas. 3 capas, absorción superior. No raya superficies delicadas.",
+                price: 4,
+                badge: "🏠 TAZ HOGAR"
+            },
+            {
+                id: 15,
+                name: "Detergente 5L",
+                category: "hogar",
+                emoji: "🧴",
+                img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=800&auto=format&fit=crop",
+                desc: "Líquido, aroma a limón. Concentrado, rinde más. Elimina grasa fácilmente.",
+                price: 15,
+                badge: "🏠 TAZ HOGAR"
+            },
+            {
+                id: 16,
+                name: "Ambientador Spray",
+                category: "hogar",
+                emoji: "🏠",
+                img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=800&auto=format&fit=crop",
+                desc: "400ml, lavanda. Elimina olores, frescura duradera. Aroma natural.",
+                price: 7,
+                badge: "🏠 TAZ HOGAR"
+            },
+            {
+                id: 17,
+                name: "Cesto para Ropa",
+                category: "hogar",
+                emoji: "🧺",
+                img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=800&auto=format&fit=crop",
+                desc: "Plástico resistente, 50L. Con asas, fácil de transportar. Tapa incluida.",
+                price: 22,
+                badge: "🏠 TAZ HOGAR"
+            },
+            {
+                id: 18,
+                name: "Jabón Líquido",
+                category: "hogar",
+                emoji: "🧼",
+                img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=800&auto=format&fit=crop",
+                desc: "1L, antibacterial. pH neutro, suave con las manos. Elimina el 99.9% de bacterias.",
+                price: 9,
+                badge: "🏠 TAZ HOGAR"
+            }
+        ];
+
+        let TASA_BCV = 60; // Valor por defecto
+        let currentCategory = 'todos';
+        // Cargar carrito desde localStorage (compartido con index)
+        let cart = JSON.parse(localStorage.getItem('multikap_cart')) || [];
+
+        // ===== FUNCIÓN PARA OBTENER TASA DEL BACKEND (COMPARTIDA CON INDEX) =====
+        async function obtenerTasaBCV() {
+            try {
+                const response = await fetch('https://asistente-javier.onrender.com/tasa-bcv');
+                const data = await response.json();
+                TASA_BCV = data.tasa || 60;
+                console.log("✅ Tasa BCV actualizada:", TASA_BCV);
+                renderProducts(getFilteredProducts());
+                updateCartDisplay();
+            } catch (error) {
+                console.log("⚠️ Usando tasa por defecto:", TASA_BCV);
+            }
+        }
+
+        function getFilteredProducts() {
+            let filtered = products;
+            if (currentCategory !== 'todos') {
+                filtered = products.filter(p => p.category === currentCategory);
+            }
+            return filtered;
+        }
+
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = productsToRender.map(p => {
+                const precioBs = (p.price * TASA_BCV).toFixed(2);
+                return `
+                <div class="product-card">
+                    <div class="product-image" onclick="openProductDetails(${p.id})">
+                        <img src="${p.img}" alt="${p.name}" loading="lazy">
+                        <span class="product-badge">${p.badge}</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${p.category.toUpperCase()}</div>
+                        <h3 class="product-name">${p.name}</h3>
+                        <div class="product-desc">${p.desc.substring(0, 60)}...</div>
+                        <div class="product-price">
+                            $${p.price} <small>| Bs ${precioBs}</small>
+                        </div>
+                        <div class="actions">
+                            <button class="btn-primary" onclick="addToCart(${p.id})">AÑADIR</button>
+                            <button class="btn-secondary" onclick="openProductDetails(${p.id})">🔍</button>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function filterByCategory(category, btn) {
+            currentCategory = category;
+            
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            btn.classList.add('active');
+            
+            renderProducts(getFilteredProducts());
+        }
+
+        function openProductDetails(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            const panel = document.getElementById('productPanel');
+            const content = document.getElementById('panelContent');
+            const precioBs = (product.price * TASA_BCV).toFixed(2);
+            
+            content.innerHTML = `
+                <img src="${product.img}" alt="${product.name}" class="panel-image">
+                <h2 class="panel-title">${product.name}</h2>
+                <div class="panel-desc">${product.desc}</div>
+                <div class="panel-price">
+                    $${product.price} <small>| Bs ${precioBs}</small>
+                </div>
+                <div class="panel-btns">
+                    <button class="btn-primary" style="flex:1;" onclick="addToCart(${product.id}); togglePanel(false);">AÑADIR AL CARRITO</button>
+                    <button class="btn-secondary" style="flex:0 0 60px;" onclick="togglePanel(false)">✖</button>
+                </div>
+            `;
+            
+            panel.classList.add('active');
+        }
+
+        function togglePanel(show) {
+            const panel = document.getElementById('productPanel');
+            if (show) panel.classList.add('active');
+            else panel.classList.remove('active');
+        }
+
+        // ===== FUNCIONES DEL CARRITO (COMPARTIDAS CON INDEX) =====
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                emoji: product.emoji
+            });
+            
+            localStorage.setItem('multikap_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            
+            showNotification(`✅ ${product.name} añadido`);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('multikap_cart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartCount.innerText = cart.length;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">🛒 Tu carrito está vacío</p>';
+                cartTotal.innerText = '$0';
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.emoji} ${item.name}</div>
+                            <div class="cart-item-price">$${item.price}</div>
+                        </div>
+                        <div class="cart-item-remove" onclick="removeFromCart(${index})">✖</div>
+                    </div>
+                `;
+            });
+            
+            cartItems.innerHTML = html;
+            cartTotal.innerText = `$${total}`;
+        }
+
+        function toggleCartPanel() {
+            const panel = document.getElementById('cartPanel');
+            panel.classList.toggle('active');
+            updateCartDisplay();
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('🛒 Tu carrito está vacío');
+                return;
+            }
+            
+            let mensaje = "🛒 *Pedido MultiKAP - TAZ 2080*%0A%0A";
+            let total = 0;
+            
+            cart.forEach(item => {
+                mensaje += `• ${item.emoji} ${item.name}: $${item.price} (Bs ${(item.price * TASA_BCV).toFixed(2)})%0A`;
+                total += item.price;
+            });
+            
+            mensaje += `%0A*Total: $${total} (Bs ${(total * TASA_BCV).toFixed(2)})*`;
+            
+            window.open(`https://wa.me/584120000000?text=${mensaje}`, '_blank');
+            
+            cart = [];
+            localStorage.setItem('multikap_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            toggleCartPanel();
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '6rem';
+            notification.style.right = '2rem';
+            notification.style.background = 'var(--primary)';
+            notification.style.color = 'var(--bg-dark)';
+            notification.style.padding = '1rem 2rem';
+            notification.style.borderRadius = '2rem';
+            notification.style.fontWeight = 'bold';
+            notification.style.zIndex = '2002';
+            notification.style.boxShadow = 'var(--neon-glow)';
+            notification.style.animation = 'fadeInOut 2s ease';
+            notification.innerText = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+
+        // Inicializar con todos los productos y cargar carrito
+        window.onload = () => {
+            obtenerTasaBCV().then(() => {
+                renderProducts(products);
+                updateCartDisplay();
+            });
+        };
+
+        // Cerrar paneles con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                togglePanel(false);
+                document.getElementById('cartPanel').classList.remove('active');
+            }
+        });
+
+        // Resize canvas
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Animación para notificaciones
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateY(20px); }
+                15% { opacity: 1; transform: translateY(0); }
+                85% { opacity: 1; transform: translateY(0); }
+                100% { opacity: 0; transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
